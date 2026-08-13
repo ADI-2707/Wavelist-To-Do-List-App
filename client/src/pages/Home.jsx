@@ -44,7 +44,7 @@ export default function Home({
     <div className="min-h-screen bg-white text-text-primary">
       <main className="relative w-full min-h-screen bg-white px-[22px] pt-8 pb-28">
         {isAddingTask ? (
-          <div className="flex items-center justify-between mb-7">
+          <div key="task-header" className="flex items-center justify-between mb-7 animate-[header-change_240ms_ease-out]">
             <button type="button" className="p-1 text-[#11152a]" aria-label="Settings">
               <Settings className="w-5 h-5 stroke-[1.8]" />
             </button>
@@ -58,12 +58,14 @@ export default function Home({
             </div>
           </div>
         ) : (
+          <div key="search-header" className="animate-[header-change_240ms_ease-out]">
           <SearchBar
             value=""
             onChange={() => {}}
             onFocus={onOpenSearch}
             placeholder="Search for a task"
           />
+          </div>
         )}
 
         {/* Day Strip Navigation */}
@@ -84,51 +86,53 @@ export default function Home({
         {/* Weekly Progress Bar */}
         <ProgressBar completed={completedCount} total={totalCount} />
 
-        {/* Tasks Section Header */}
-        <div className="flex items-center justify-between pt-0">
+        <section key={selectedDateStr} className="animate-[tasks-content-enter_260ms_cubic-bezier(0.22,1,0.36,1)]">
+          {/* Tasks Section Header */}
+          <div className="flex items-center justify-between pt-0">
             <h2 className="text-[17px] font-semibold text-[#0b1022]">Tasks Today</h2>
-          <button
-            onClick={onOpenSearch}
-            className="text-[13px] font-medium text-[#4966e8] hover:text-primary-dark transition-colors"
-          >
-            View All
-          </button>
-        </div>
+            <button
+              onClick={onOpenSearch}
+              className="text-[13px] font-medium text-[#4966e8] hover:text-primary-dark transition-colors"
+            >
+              View All
+            </button>
+          </div>
 
-        {/* Task List */}
-        {loading ? (
-          <div className="space-y-0 py-2">
-            {[1, 2, 3].map((n) => (
-              <div key={n} className="w-full h-14 bg-surface animate-pulse border-b border-border" />
-            ))}
-          </div>
-        ) : hasTasksToday ? (
-          <div className="mt-2">
-            {tasksForSelectedDate.map((task) => (
-              <TaskItem
-                key={task._id}
-                task={task}
-                onToggleStatus={onToggleStatus}
-                onEdit={onEditTask}
-                onDelete={onDeleteTask}
-                onView={onViewTaskDetail}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="my-4 text-center">
-            <div className="bg-surface p-8 border border-border space-y-3">
-              <div className="w-12 h-12 rounded-full bg-primary-light text-primary flex items-center justify-center mx-auto">
-                <Calendar className="w-6 h-6" />
-              </div>
-              <h3 className="text-[15px] font-semibold text-text-primary">No tasks for this day</h3>
-              <p className="text-[13px] text-text-secondary max-w-xs mx-auto">
-                Your schedule is clear! Tap the + button to add a new task to your wavelist.
-              </p>
+          {/* Task List */}
+          {loading ? (
+            <div className="space-y-0 py-2">
+              {[1, 2, 3].map((n) => (
+                <div key={n} className="w-full h-14 bg-surface animate-pulse border-b border-border" />
+              ))}
             </div>
-            <FAB onClick={onOpenNewTaskModal} inline />
-          </div>
-        )}
+          ) : hasTasksToday ? (
+            <div className="mt-2">
+              {tasksForSelectedDate.map((task) => (
+                <TaskItem
+                  key={task._id}
+                  task={task}
+                  onToggleStatus={onToggleStatus}
+                  onEdit={onEditTask}
+                  onDelete={onDeleteTask}
+                  onView={onViewTaskDetail}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="my-4 text-center">
+              <div className="bg-surface p-8 border border-border space-y-3">
+                <div className="w-12 h-12 rounded-full bg-primary-light text-primary flex items-center justify-center mx-auto">
+                  <Calendar className="w-6 h-6" />
+                </div>
+                <h3 className="text-[15px] font-semibold text-text-primary">No tasks for this day</h3>
+                <p className="text-[13px] text-text-secondary max-w-xs mx-auto">
+                  Your schedule is clear! Tap the + button to add a new task to your wavelist.
+                </p>
+              </div>
+              <FAB onClick={onOpenNewTaskModal} inline />
+            </div>
+          )}
+        </section>
       </main>
 
       {/* Floating Add Task Button */}

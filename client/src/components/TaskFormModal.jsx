@@ -8,6 +8,7 @@ export default function TaskFormModal({ isOpen, onClose, onSubmit, initialTask =
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [errors, setErrors] = useState({});
+  const [isClosing, setIsClosing] = useState(false);
   const startTimeInput = useRef(null);
   const endTimeInput = useRef(null);
 
@@ -26,9 +27,16 @@ export default function TaskFormModal({ isOpen, onClose, onSubmit, initialTask =
       setStartTime('');
     }
     setErrors({});
+    setIsClosing(false);
   }, [initialTask, isOpen]);
 
   if (!isOpen) return null;
+
+  const closeWithAnimation = () => {
+    if (isClosing) return;
+    setIsClosing(true);
+    window.setTimeout(onClose, 240);
+  };
 
   const openTimePicker = (input) => {
     if (input?.showPicker) {
@@ -69,15 +77,15 @@ export default function TaskFormModal({ isOpen, onClose, onSubmit, initialTask =
       endTime,
       status: initialTask ? initialTask.status : 'In Progress'
     });
-    onClose();
+    closeWithAnimation();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/25">
-      <div className="w-full max-w-[390px] bg-white p-6 pb-8 shadow-2xl max-h-[82vh] overflow-y-auto sm:max-h-[570px]">
+    <div className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/25 ${isClosing ? 'animate-[modal-fade-out_240ms_ease-in_forwards]' : 'animate-[modal-fade-in_220ms_ease-out]'}`}>
+      <div className={`w-full max-w-[390px] bg-white p-6 pb-8 shadow-2xl max-h-[82vh] overflow-y-auto sm:max-h-[570px] ${isClosing ? 'animate-[task-sheet-exit_240ms_ease-in_forwards] sm:animate-[task-modal-exit_220ms_ease-in_forwards]' : 'animate-[task-sheet-enter_300ms_cubic-bezier(0.22,1,0.36,1)] sm:animate-[task-modal-enter_260ms_cubic-bezier(0.22,1,0.36,1)]'}`}>
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-[18px] font-medium text-[#11152a]">{initialTask ? 'Edit Task' : 'Add New Task'}</h2>
-          <button onClick={onClose} className="p-1 text-[#11152a] hover:text-primary" aria-label="Close form">
+          <button onClick={closeWithAnimation} className="p-1 text-[#11152a] hover:text-primary" aria-label="Close form">
             <X className="w-5 h-5 stroke-[1.8]" />
           </button>
         </div>
