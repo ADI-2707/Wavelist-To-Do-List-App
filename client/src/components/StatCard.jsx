@@ -1,35 +1,30 @@
 import React from 'react';
-import { CheckCircle2, Clock } from 'lucide-react';
+import { Check, SquareX } from 'lucide-react';
 
-export default function StatCard({ type = 'complete', count = 0, total = 0 }) {
-  if (type === 'complete') {
-    return (
-      <div className="flex-1 bg-primary text-white rounded-card p-4 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[110px]">
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-medium text-white/90">Task Complete</span>
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-            <CheckCircle2 className="w-5 h-5 text-white" />
-          </div>
-        </div>
-        <div className="mt-2">
-          <span className="text-[28px] font-bold leading-none">{count}</span>
-          <span className="text-[12px] font-normal text-white/80 ml-1.5">tasks</span>
-        </div>
-      </div>
-    );
-  }
+export default function StatCard({ type = 'complete', count = 0 }) {
+  const isComplete = type === 'complete';
 
   return (
-    <div className="flex-1 bg-danger-bg rounded-card p-4 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[110px]">
-      <div className="flex items-center justify-between">
-        <span className="text-[13px] font-medium text-text-primary">Task Pending</span>
-        <div className="w-8 h-8 rounded-full bg-white/60 flex items-center justify-center">
-          <Clock className="w-5 h-5 text-danger-icon" />
-        </div>
+    <div className={`flex-1 p-4 min-h-[93px] ${isComplete ? 'bg-[#edf0ff]' : 'bg-[#ffe3e5]'}`}>
+      <div className="flex items-center gap-3">
+        {isComplete ? (
+          <span className="w-7 h-7 flex items-center justify-center bg-[#c7d2ff] text-[#4966e8]">
+            <span className="w-5 h-5 border-[1.5px] border-current flex items-center justify-center">
+              <Check className="w-3.5 h-3.5 stroke-[2]" />
+            </span>
+          </span>
+        ) : (
+          <span className="w-7 h-7 flex items-center justify-center bg-[#f7bcc1] text-[#ec5e67]">
+            <SquareX className="w-5 h-5 stroke-[1.8]" />
+          </span>
+        )}
+        <span className="text-[12px] font-normal text-[#12172a]">
+          {isComplete ? 'Task Complete' : 'Task Pending'}
+        </span>
       </div>
-      <div className="mt-2">
-        <span className="text-[28px] font-bold leading-none text-text-primary">{count}</span>
-        <span className="text-[12px] font-normal text-text-secondary ml-1.5">tasks</span>
+      <div className="mt-2 pl-9">
+        <span className="text-[21px] font-semibold leading-none text-[#11152a]">{count}</span>
+        <span className="text-[10px] text-[#707381] ml-1.5">This Week</span>
       </div>
     </div>
   );

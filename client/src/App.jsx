@@ -90,6 +90,7 @@ export default function App() {
           onOpenNewTaskModal={handleOpenNewTaskModal}
           onViewTaskDetail={handleEditTask}
           onRefresh={loadTasks}
+          isAddingTask={isModalOpen && !editingTask}
         />
       )}
 

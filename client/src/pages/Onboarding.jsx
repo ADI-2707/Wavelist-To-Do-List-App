@@ -3,8 +3,8 @@ import wavePattern from '../assets/wave-pattern.svg';
 
 export default function Onboarding({ onGetStarted }) {
   return (
-    <div className="min-h-screen bg-page-bg p-5 sm:flex sm:items-center sm:justify-center">
-      <section className="w-full min-h-[calc(100vh-40px)] max-w-[338px] mx-auto bg-surface flex flex-col overflow-hidden sm:min-h-[720px]">
+    <div className="min-h-screen bg-surface">
+      <section className="w-full min-h-screen bg-surface flex flex-col overflow-hidden">
         <div className="relative h-[65vh] min-h-[470px] max-h-[500px] bg-[#4966e8] overflow-hidden">
           <div
             className="absolute -left-1 top-[92px] w-[112px] h-[68px] bg-no-repeat bg-[length:136px_68px] opacity-70"

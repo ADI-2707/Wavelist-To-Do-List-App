@@ -34,7 +34,7 @@ exports.searchTasks = async (req, res) => {
 // POST /api/tasks - Create task
 exports.createTask = async (req, res) => {
   try {
-    const { title, description, dateTime, priority, status } = req.body;
+    const { title, description, dateTime, endTime, priority, status } = req.body;
     if (!title || !dateTime) {
       return res.status(400).json({ message: 'Title and dateTime are required fields' });
     }
@@ -42,6 +42,7 @@ exports.createTask = async (req, res) => {
       title,
       description: description || '',
       dateTime,
+      endTime: endTime || '',
       priority: priority || 'Medium',
       status: status || 'In Progress'
     });
@@ -56,10 +57,10 @@ exports.createTask = async (req, res) => {
 exports.updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, dateTime, priority, status } = req.body;
+    const { title, description, dateTime, endTime, priority, status } = req.body;
     const updatedTask = await Task.findByIdAndUpdate(
       id,
-      { title, description, dateTime, priority, status },
+      { title, description, dateTime, endTime: endTime || '', priority: priority || 'Medium', status },
       { new: true, runValidators: true }
     );
     if (!updatedTask) {

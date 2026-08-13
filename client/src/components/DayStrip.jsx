@@ -1,7 +1,6 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function DayStrip({ selectedDate, onSelectDate, weekOffset = 0, onChangeWeek }) {
+export default function DayStrip({ selectedDate, onSelectDate, weekOffset = 0, onChangeWeek, activeTaskDates = [] }) {
   // Generate days for the selected week offset (Monday to Sunday)
   const getDaysOfWeek = (offset = 0) => {
     const now = new Date();
@@ -40,48 +39,28 @@ export default function DayStrip({ selectedDate, onSelectDate, weekOffset = 0, o
   };
 
   return (
-    <div className="w-full my-4">
-      {/* Week header & Navigation */}
-      <div className="flex items-center justify-between mb-3 px-1">
-        <h3 className="text-[15px] font-semibold text-text-primary">{getWeekLabel()}</h3>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => onChangeWeek && onChangeWeek(weekOffset - 1)}
-            className="p-1.5 rounded-full bg-surface border border-border text-text-secondary hover:text-primary transition-colors"
-            title="Previous Week"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => onChangeWeek && onChangeWeek(weekOffset + 1)}
-            className="p-1.5 rounded-full bg-surface border border-border text-text-secondary hover:text-primary transition-colors"
-            title="Next Week"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Days Horizontal Scroll */}
-      <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-1">
+    <div className="w-full mt-3 mb-7">
+      <div className="flex items-start justify-between overflow-x-auto no-scrollbar">
         {days.map((day) => {
           const isSelected = day.fullDate === selectedDateStr;
+          const hasActiveTask = activeTaskDates.includes(day.fullDate);
           return (
             <button
               key={day.fullDate}
               onClick={() => onSelectDate && onSelectDate(day.dateObj)}
-              className={`flex-1 min-w-[44px] flex flex-col items-center justify-center py-2.5 px-1 rounded-full transition-all duration-200 ${
+              className={`relative w-[38px] min-w-[38px] h-[61px] flex flex-col items-center justify-center px-1 transition-all ${
                 isSelected
-                  ? 'bg-primary text-white shadow-md shadow-primary/30 scale-105'
-                  : 'bg-surface border border-border text-text-secondary hover:border-primary/50'
+                  ? 'bg-[#4966e8] text-white'
+                  : 'text-[#a8a8a8] hover:text-primary'
               }`}
             >
-              <span className={`text-[11px] font-medium uppercase ${isSelected ? 'text-white/80' : 'text-text-muted'}`}>
+              <span className={`text-[10px] font-normal ${isSelected ? 'text-white/80' : 'text-[#b1b1b1]'}`}>
                 {day.name}
               </span>
-              <span className={`text-[15px] font-bold mt-0.5 ${isSelected ? 'text-white' : 'text-text-primary'}`}>
+              <span className={`text-[14px] font-medium mt-1 ${isSelected ? 'text-white' : 'text-[#a4a4a4]'}`}>
                 {day.dateNum}
               </span>
+              {isSelected && hasActiveTask && <span className="absolute bottom-[6px] w-1 h-1 rounded-full bg-white" />}
             </button>
           );
         })}

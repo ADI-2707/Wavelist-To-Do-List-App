@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Search as SearchIcon, X, SlidersHorizontal } from 'lucide-react';
+import { ArrowLeft, Search as SearchIcon, X } from 'lucide-react';
 import TaskItem from '../components/TaskItem';
 
 export default function Search({
@@ -29,28 +29,26 @@ export default function Search({
   }, [query, allTasks]);
 
   return (
-    <div className="min-h-screen bg-page-bg pb-12 text-text-primary">
-      {/* Search Header */}
-      <header className="bg-surface border-b border-border px-4 py-3 sticky top-0 z-20 shadow-sm">
-        <div className="max-w-md mx-auto flex items-center gap-3">
+    <div className="min-h-screen bg-white text-text-primary">
+      <section className="w-full min-h-screen bg-white px-[22px] pt-6">
+        <div>
           <button
             onClick={onBack}
-            className="p-2 rounded-full text-text-secondary hover:text-text-primary hover:bg-page-bg transition-colors"
+            className="p-1 mb-7 text-[#11152a] hover:text-primary transition-colors"
             title="Back to Home"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-6 h-6 stroke-[1.8]" />
           </button>
-          
-          <div className="relative flex-1">
+          <div className="relative">
             <input
               type="text"
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by keyword..."
-              className="w-full pl-9 pr-9 py-2.5 bg-page-bg border border-border rounded-input text-[14px] text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary transition-all"
+              placeholder="Finish"
+              className="w-full px-5 pr-10 py-[13px] bg-white border border-[#e4e4e4] rounded-[5px] text-[12px] text-text-primary placeholder:text-[#929292] focus:outline-none focus:border-primary transition-all"
             />
-            <SearchIcon className="w-4 h-4 text-text-secondary absolute left-3 top-3 pointer-events-none" />
+            <SearchIcon className="w-5 h-5 text-[#0d1327] absolute right-4 top-[13px] pointer-events-none" />
             {query && (
               <button
                 onClick={() => setQuery('')}
@@ -61,22 +59,11 @@ export default function Search({
             )}
           </div>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-md mx-auto p-4 space-y-4">
-        <div className="flex items-center justify-between text-[13px] text-text-secondary px-1">
-          <span>
-            {query ? `Search results for "${query}"` : 'All tasks'}
-          </span>
-          <span className="font-semibold text-text-primary">
-            {filteredTasks.length} {filteredTasks.length === 1 ? 'task' : 'tasks'}
-          </span>
-        </div>
+      <main className="mt-7">
 
         {/* Task List */}
         {filteredTasks.length > 0 ? (
-          <div className="space-y-3">
+          <div>
             {filteredTasks.map((task) => (
               <TaskItem
                 key={task._id}
@@ -85,11 +72,12 @@ export default function Search({
                 onEdit={onEditTask}
                 onDelete={onDeleteTask}
                 onView={onViewTaskDetail}
+                showActions={false}
               />
             ))}
           </div>
         ) : (
-          <div className="bg-surface rounded-card p-8 border border-border text-center my-6 space-y-3">
+          <div className="bg-surface p-8 border border-border text-center my-6 space-y-3">
             <div className="w-12 h-12 rounded-full bg-danger-bg text-danger-icon flex items-center justify-center mx-auto">
               <SearchIcon className="w-6 h-6" />
             </div>
@@ -100,6 +88,7 @@ export default function Search({
           </div>
         )}
       </main>
+      </section>
     </div>
   );
 }
