@@ -47,7 +47,7 @@ export default function Onboarding({ onGetStarted }) {
             className={`z-10 flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${
               isSplash
                 ? 'animate-[logo-3d-entry_800ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]'
-                : 'scale-0 opacity-0 pointer-events-none'
+                : 'scale-0 transform-gpu pointer-events-none'
             }`}
           >
             <img
