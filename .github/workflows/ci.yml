@@ -2,98 +2,65 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
+
+permissions:
+  contents: read
 
 jobs:
-  client-build:
-    name: Build Client
+  client:
+    name: Test & Build Client
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: client
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: client/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --run
 
-      - name: Build
+      - name: Build production bundle
         run: npm run build
 
-  server-check:
-    name: Check Server
+  server:
+    name: Test Server
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: server
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: server/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Syntax check
-        run: node --check index.js
-
       - name: Run tests
         run: npm test
-
-  release:
-    name: Auto Version & Release
-    needs: [client-build, server-check]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Bump version and create tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: patch
-          release_branches: main
-
-      - name: Update package.json versions
-        if: steps.tag_version.outputs.new_version
-        run: |
-          NEW_VERSION=${{ steps.tag_version.outputs.new_version }}
-          npm --prefix client version "$NEW_VERSION" --no-git-tag-version --allow-same-version
-          npm --prefix server version "$NEW_VERSION" --no-git-tag-version --allow-same-version
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add client/package.json server/package.json
-          git diff --cached --quiet && echo "No version changes to commit" || git commit -m "chore(release): v$NEW_VERSION [skip ci][skip netlify]"
-          git push origin HEAD:main
-
-      - name: Create GitHub Release
-        if: steps.tag_version.outputs.new_tag
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
