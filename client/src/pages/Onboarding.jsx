@@ -12,7 +12,7 @@ export default function Onboarding({ onGetStarted }) {
 
     const completeTimer = setTimeout(() => {
       setAnimationStage('complete');
-    }, 1600);
+    }, 1800);
 
     return () => {
       clearTimeout(splashTimer);
@@ -21,6 +21,7 @@ export default function Onboarding({ onGetStarted }) {
   }, []);
 
   const isSplash = animationStage === 'splash';
+  const isComplete = animationStage === 'complete';
 
   return (
     <div className="min-h-screen bg-surface">
@@ -51,10 +52,12 @@ export default function Onboarding({ onGetStarted }) {
           />
 
           <div
-            className={`z-10 flex flex-col items-center justify-center transition-all duration-700 ${
+            className={`z-10 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
               isSplash
                 ? 'animate-[logo-3d-entry_800ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]'
-                : 'scale-90 transform-gpu'
+                : isComplete
+                ? 'scale-0 opacity-0 pointer-events-none'
+                : 'scale-90 opacity-100'
             }`}
           >
             <img
@@ -62,11 +65,7 @@ export default function Onboarding({ onGetStarted }) {
               alt="Wavelist Logo"
               className="w-24 h-24 drop-shadow-[0_16px_20px_rgba(0,0,0,0.3)] transition-transform duration-500"
             />
-            <span
-              className={`mt-4 text-[22px] font-bold tracking-wider text-white transition-all duration-500 ${
-                isSplash ? 'opacity-100 scale-100' : 'opacity-90 scale-95'
-              }`}
-            >
+            <span className="mt-4 text-[22px] font-bold tracking-wider text-white">
               Wavelist
             </span>
           </div>
