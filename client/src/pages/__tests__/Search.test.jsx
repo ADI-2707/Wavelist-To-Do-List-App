@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Search from '../Search';
 
 describe('Search Page Component', () => {
@@ -9,7 +9,15 @@ describe('Search Page Component', () => {
     { _id: '2', title: 'Fix bug', description: 'Resolve CSS layout issue', status: 'Completed' }
   ];
 
-  it('filters tasks based on search input keyword', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('filters tasks based on debounced search input keyword', () => {
     render(
       <Search
         allTasks={sampleTasks}
@@ -23,6 +31,10 @@ describe('Search Page Component', () => {
 
     const input = screen.getByPlaceholderText('Finish');
     fireEvent.change(input, { target: { value: 'groceries' } });
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
 
     expect(screen.getByText('Buy groceries')).toBeInTheDocument();
     expect(screen.queryByText('Fix bug')).not.toBeInTheDocument();

@@ -11,13 +11,24 @@ export default function Search({
   onViewTaskDetail
 }) {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [filteredTasks, setFilteredTasks] = useState(allTasks);
 
   useEffect(() => {
-    if (!query.trim()) {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [query]);
+
+  useEffect(() => {
+    if (!debouncedQuery.trim()) {
       setFilteredTasks(allTasks);
     } else {
-      const q = query.toLowerCase();
+      const q = debouncedQuery.toLowerCase();
       setFilteredTasks(
         allTasks.filter(
           (t) =>
@@ -26,7 +37,7 @@ export default function Search({
         )
       );
     }
-  }, [query, allTasks]);
+  }, [debouncedQuery, allTasks]);
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
@@ -59,34 +70,33 @@ export default function Search({
             )}
           </div>
         </div>
-      <main className="mt-7">
-
-        {filteredTasks.length > 0 ? (
-          <div>
-            {filteredTasks.map((task) => (
-              <TaskItem
-                key={task._id}
-                task={task}
-                onToggleStatus={onToggleStatus}
-                onEdit={onEditTask}
-                onDelete={onDeleteTask}
-                onView={onViewTaskDetail}
-                showActions={false}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-surface p-8 border border-border text-center my-6 space-y-3">
-            <div className="w-12 h-12 rounded-full bg-danger-bg text-danger-icon flex items-center justify-center mx-auto">
-              <SearchIcon className="w-6 h-6" />
+        <main className="mt-7">
+          {filteredTasks.length > 0 ? (
+            <div>
+              {filteredTasks.map((task) => (
+                <TaskItem
+                  key={task._id}
+                  task={task}
+                  onToggleStatus={onToggleStatus}
+                  onEdit={onEditTask}
+                  onDelete={onDeleteTask}
+                  onView={onViewTaskDetail}
+                  showActions={false}
+                />
+              ))}
             </div>
-            <h3 className="text-[15px] font-semibold text-text-primary">No tasks found</h3>
-            <p className="text-[13px] text-text-secondary max-w-xs mx-auto">
-              We couldn't find any tasks matching "{query}". Try searching with a different keyword.
-            </p>
-          </div>
-        )}
-      </main>
+          ) : (
+            <div className="bg-surface p-8 border border-border text-center my-6 space-y-3">
+              <div className="w-12 h-12 rounded-full bg-danger-bg text-danger-icon flex items-center justify-center mx-auto">
+                <SearchIcon className="w-6 h-6" />
+              </div>
+              <h3 className="text-[15px] font-semibold text-text-primary">No tasks found</h3>
+              <p className="text-[13px] text-text-secondary max-w-xs mx-auto">
+                We couldn't find any tasks matching "{query}". Try searching with a different keyword.
+              </p>
+            </div>
+          )}
+        </main>
       </section>
     </div>
   );
