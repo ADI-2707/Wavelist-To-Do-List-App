@@ -7,11 +7,11 @@ export default function Onboarding({ onGetStarted }) {
       <section className="w-full min-h-screen bg-surface flex flex-col overflow-hidden">
         <div className="relative h-[65vh] min-h-[470px] max-h-[500px] bg-[#4966e8] overflow-hidden">
           <div
-            className="absolute -left-1 top-[92px] w-[112px] h-[68px] bg-no-repeat bg-[length:136px_68px] opacity-70"
+            className="absolute -left-2 top-[80px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] opacity-20 pointer-events-none"
             style={{ backgroundImage: `url(${wavePattern})` }}
           />
           <div
-            className="absolute -right-1 bottom-[28px] w-[110px] h-[68px] bg-no-repeat bg-[length:136px_68px] opacity-70"
+            className="absolute -right-2 bottom-[24px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] opacity-20 pointer-events-none"
             style={{ backgroundImage: `url(${wavePattern})` }}
           />
           <div className="absolute -top-7 -right-7 h-20 w-20 rounded-full border-[15px] border-[#5874ee]" />
