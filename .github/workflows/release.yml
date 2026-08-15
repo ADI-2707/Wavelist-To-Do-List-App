@@ -28,11 +28,11 @@ jobs:
           node-version: 20
 
       - name: Install Client dependencies
-        run: npm ci
+        run: npm install
         working-directory: client
 
       - name: Install Server dependencies
-        run: npm ci
+        run: npm install
         working-directory: server
 
       - name: Run Client Tests & Build
