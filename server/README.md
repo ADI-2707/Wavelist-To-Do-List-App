@@ -15,13 +15,13 @@ The backend REST API service for Wavelist built with Node.js, Express, and Mongo
 
 ---
 
-## Live Deployment
+## Live Deployments
 
 - **Render Web Service Dashboard**: `https://dashboard.render.com/web/srv-d9vhjt8jo6nc73fue9eg`
 
 ---
 
-## Architecture and Design
+## Architecture and Structure
 
 The server codebase is structured for testability and modularity, separating the Express application initialization from database connections and HTTP server startup.
 
@@ -34,8 +34,9 @@ server/
 ├── routes/
 │   └── tasks.js            # Express router mapping for task endpoints
 ├── __tests__/
-│   └── health.test.js      # Integration tests for health and readiness endpoints
-├── app.js                  # Express middleware setup, CORS, route handlers, error handlers
+│   ├── health.test.js      # Integration tests for health and readiness endpoints
+│   └── tasks.test.js       # Integration tests for task REST API CRUD endpoints
+├── app.js                  # Express middleware setup, CORS, express.json parser, error handlers
 ├── db.js                   # MongoDB connection and graceful disconnection utility
 ├── index.js                # Server entry point, signal handlers (SIGTERM, SIGINT)
 ├── package.json            # Scripts and dependencies
@@ -70,8 +71,8 @@ MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/wavelist?retr
 | --- | --- | --- | --- |
 | `GET` | `/api/tasks` | Fetch all tasks sorted by date/time | None |
 | `GET` | `/api/tasks/search?q=keyword` | Search tasks by title or description | `q`: search query string |
-| `POST` | `/api/tasks` | Create a new task | `{ title, description, dateTime, priority, status }` |
-| `PUT` | `/api/tasks/:id` | Update an existing task | `{ title, description, dateTime, priority, status }` |
+| `POST` | `/api/tasks` | Create a new task | `{ title, description, dateTime, endTime, priority, status }` |
+| `PUT` | `/api/tasks/:id` | Update an existing task | `{ title, description, dateTime, endTime, priority, status }` |
 | `PATCH` | `/api/tasks/:id/status` | Toggle status (`Completed` / `In Progress`) | Optional `{ status }` |
 | `DELETE` | `/api/tasks/:id` | Delete a task by ID | None |
 
@@ -84,6 +85,7 @@ MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/wavelist?retr
   title: { type: String, required: true, trim: true },
   description: { type: String, trim: true, default: '' },
   dateTime: { type: Date, required: true, default: Date.now },
+  endTime: { type: String, default: '' },
   priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Medium' },
   status: { type: String, enum: ['In Progress', 'Completed'], default: 'In Progress' },
   createdAt: { type: Date, default: Date.now }
@@ -110,9 +112,17 @@ npm run start
 
 ---
 
-## Testing
+## Available Scripts
 
-Integration tests are executed using Jest and Supertest.
+- `npm run dev`: Starts Express API server with Nodemon auto-reload.
+- `npm run start`: Starts production Node.js server.
+- `npm run test`: Runs integration test suite using Jest and Supertest (11 tests).
+
+---
+
+## Test Suites
+
+Integration tests are executed using Jest and Supertest across 2 test suites (11 passing tests).
 
 Run server test suite:
 ```bash

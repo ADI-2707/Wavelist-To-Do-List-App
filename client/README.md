@@ -1,6 +1,6 @@
 # Wavelist Client
 
-The frontend application for Wavelist, a mobile-first task management web application built with React, Vite, and Tailwind CSS.
+The frontend application for Wavelist, a mobile-first task management web application built with React 18, Vite, and Tailwind CSS.
 
 ---
 
@@ -15,10 +15,25 @@ The frontend application for Wavelist, a mobile-first task management web applic
 
 ---
 
-## Live Deployment
+## Live Deployments
 
-- **Live Site**: `https://magnificent-flan-ea6dcf.netlify.app`
+- **Live Site (Netlify)**: `https://magnificent-flan-ea6dcf.netlify.app`
 - **Netlify Dashboard**: `https://app.netlify.com/projects/magnificent-flan-ea6dcf/overview`
+
+---
+
+## Key Features
+
+- **Onboarding Entrance Animation**: Multi-stage sequence featuring initial full-screen blue background, 3D centered logo pop-in, 3D scale-to-zero transition, sliding white section, and staggered asset entry.
+- **Home Dashboard**:
+  - Keyword Search Bar.
+  - Horizontal Day Strip (Monday through Sunday) with interactive week navigation.
+  - Completion Statistics: Task Complete counter and Task Pending status tracker.
+  - Weekly Progress Bar: Dynamic percentage indicator based on active vs completed tasks.
+  - Daily Task List: Task items with interactive status check toggle and priority indicators.
+  - Floating Add Button (FAB): Quick access trigger to create new tasks.
+- **Task Management Modal**: Create and edit tasks with title, date, start/end time, description, and priority level (Low / Medium / High).
+- **Search View**: 300ms debounced real-time client-side and server-supported search across task titles and descriptions.
 
 ---
 
@@ -29,7 +44,8 @@ client/
 ├── public/                 # Static public files (favicon, logo)
 ├── src/
 │   ├── api/
-│   │   └── tasks.js        # API fetch wrapper with local storage fallback
+│   │   ├── tasks.js        # API fetch wrapper with local storage fallback
+│   │   └── __tests__/      # Unit tests for API client layer
 │   ├── assets/
 │   │   ├── wave-pattern.svg# Herringbone SVG background pattern
 │   │   └── wavelist-logo.svg
@@ -38,16 +54,18 @@ client/
 │   │   ├── FAB.jsx         # Floating Action Button for task creation
 │   │   ├── ProgressBar.jsx # Weekly task completion percentage bar
 │   │   ├── SearchBar.jsx   # Search input component
-│   │   ├── StatCard.jsx    # Complete and pending task metrics cards
+      ├── StatCard.jsx    # Complete and pending task metrics cards
 │   │   ├── TaskFormModal.jsx # Form modal for task creation & editing
-│   │   └── TaskItem.jsx    # Individual task card item
+│   │   ├── TaskItem.jsx    # Individual task card item
+│   │   └── __tests__/      # Component unit tests for TaskItem, TaskFormModal, DayStrip
 │   ├── pages/
 │   │   ├── Home.jsx        # Dashboard overview page
-│   │   ├── Onboarding.jsx  # Landing hero page with custom wave background
-│   │   └── Search.jsx      # Task filtering and search page
+│   │   ├── Onboarding.jsx  # Animated landing page with 3D logo sequence
+│   │   ├── Search.jsx      # Debounced task filtering and search page
+│   │   └── __tests__/      # Page integration unit tests for Onboarding, Home, Search
 │   ├── App.jsx             # Main container, routing state & API actions
 │   ├── App.test.jsx        # Smoke component test
-│   ├── index.css           # Tailwind custom CSS rules & color tokens
+│   ├── index.css           # Tailwind custom CSS rules & animation keyframes
 │   ├── main.jsx            # React root DOM rendering
 │   └── setupTests.js       # Jest DOM matchers setup
 ├── index.html              # HTML shell
@@ -87,16 +105,16 @@ The application will start at `http://localhost:5173`.
 - `npm run dev`: Starts Vite local development server with hot module replacement (HMR).
 - `npm run build`: Compiles production build to `dist/` directory.
 - `npm run preview`: Previews production build locally.
-- `npm run test`: Runs test suite using Vitest.
+- `npm run test`: Runs test suite using Vitest (24 unit and component tests).
 - `npm run lint`: Runs ESLint check across source files.
 
 ---
 
-## Testing
+## Test Suites
 
-Tests are written using Vitest and React Testing Library (`App.test.jsx`).
+Tests are written using Vitest and React Testing Library across 8 test suites (24 passing tests).
 
-Run tests:
+Run client tests:
 ```bash
 npm test
 ```
