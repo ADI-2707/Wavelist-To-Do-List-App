@@ -3,25 +3,17 @@ import wavePattern from '../assets/wave-pattern.svg?url';
 import logoMark from '../assets/wavelist-logo.svg?url';
 
 export default function Onboarding({ onGetStarted }) {
-  const [animationStage, setAnimationStage] = useState('splash');
+  const [isSplash, setIsSplash] = useState(true);
 
   useEffect(() => {
     const splashTimer = setTimeout(() => {
-      setAnimationStage('hero');
+      setIsSplash(false);
     }, 900);
-
-    const completeTimer = setTimeout(() => {
-      setAnimationStage('complete');
-    }, 1800);
 
     return () => {
       clearTimeout(splashTimer);
-      clearTimeout(completeTimer);
     };
   }, []);
-
-  const isSplash = animationStage === 'splash';
-  const isComplete = animationStage === 'complete';
 
   return (
     <div className="min-h-screen bg-surface">
@@ -52,18 +44,16 @@ export default function Onboarding({ onGetStarted }) {
           />
 
           <div
-            className={`z-10 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
+            className={`z-10 flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${
               isSplash
                 ? 'animate-[logo-3d-entry_800ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]'
-                : isComplete
-                ? 'scale-0 opacity-0 pointer-events-none'
-                : 'scale-90 opacity-100'
+                : 'scale-0 opacity-0 pointer-events-none'
             }`}
           >
             <img
               src={logoMark}
               alt="Wavelist Logo"
-              className="w-24 h-24 drop-shadow-[0_16px_20px_rgba(0,0,0,0.3)] transition-transform duration-500"
+              className="w-24 h-24 drop-shadow-[0_16px_20px_rgba(0,0,0,0.3)]"
             />
             <span className="mt-4 text-[22px] font-bold tracking-wider text-white">
               Wavelist
