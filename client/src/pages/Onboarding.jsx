@@ -1,55 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import wavePattern from '../assets/wave-pattern.svg?url';
 import logoMark from '../assets/wavelist-logo.svg?url';
 
 export default function Onboarding({ onGetStarted }) {
-  const [isSplash, setIsSplash] = useState(true);
-
-  useEffect(() => {
-    const splashTimer = setTimeout(() => {
-      setIsSplash(false);
-    }, 900);
-
-    return () => {
-      clearTimeout(splashTimer);
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-surface">
       <section className="w-full min-h-screen bg-surface flex flex-col overflow-hidden">
-        <div
-          className={`relative bg-[#4966e8] overflow-hidden flex flex-col items-center justify-center transition-all duration-700 ${
-            isSplash
-              ? 'h-screen min-h-screen'
-              : 'h-[65vh] min-h-[470px] max-h-[500px] animate-[hero-blue-shrink_700ms_cubic-bezier(0.22,1,0.36,1)_forwards]'
-          }`}
-        >
+        <div className="relative bg-[#4966e8] overflow-hidden flex flex-col items-center justify-center min-h-[470px] max-h-[500px] animate-[onboarding-blue-hero-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]">
           <div
-            className={`absolute -left-2 top-[80px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] opacity-20 pointer-events-none ${
-              !isSplash ? 'animate-[wave-slide-left_700ms_cubic-bezier(0.22,1,0.36,1)_forwards]' : 'opacity-0'
-            }`}
+            className="absolute -left-2 top-[80px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] pointer-events-none animate-[onboarding-wave-left-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]"
             style={{ backgroundImage: `url(${wavePattern})` }}
           />
           <div
-            className={`absolute -right-2 bottom-[24px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] opacity-20 pointer-events-none ${
-              !isSplash ? 'animate-[wave-slide-right_700ms_cubic-bezier(0.22,1,0.36,1)_forwards]' : 'opacity-0'
-            }`}
+            className="absolute -right-2 bottom-[24px] w-[140px] h-[75px] bg-no-repeat bg-[length:140px_75px] pointer-events-none animate-[onboarding-wave-right-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]"
             style={{ backgroundImage: `url(${wavePattern})` }}
           />
-          <div
-            className={`absolute -top-7 -right-7 h-20 w-20 rounded-full border-[15px] border-[#5874ee] ${
-              !isSplash ? 'animate-[circle-slide-top-right_600ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]' : 'opacity-0 scale-0'
-            }`}
-          />
+          <div className="absolute -top-7 -right-7 h-20 w-20 rounded-full border-[15px] border-[#5874ee] animate-[onboarding-circle-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]" />
 
-          <div
-            className={`z-10 flex flex-col items-center justify-center ${
-              isSplash
-                ? 'animate-[logo-3d-entry_800ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]'
-                : 'animate-[logo-zoom-out-distance_700ms_cubic-bezier(0.22,1,0.36,1)_forwards] pointer-events-none'
-            }`}
-          >
+          <div className="z-10 flex flex-col items-center justify-center pointer-events-none animate-[onboarding-logo-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]">
             <img
               src={logoMark}
               alt="Wavelist Logo"
@@ -61,26 +29,24 @@ export default function Onboarding({ onGetStarted }) {
           </div>
         </div>
 
-        {!isSplash && (
-          <div className="flex flex-1 flex-col px-5 pt-[23px] pb-7 bg-white animate-[white-sheet-slide-up_700ms_cubic-bezier(0.22,1,0.36,1)_forwards]">
-            <div>
-              <h1 className="text-[21px] font-bold leading-tight tracking-[-0.02em] text-text-primary opacity-0 animate-[text-fade-in-up_500ms_ease-out_200ms_forwards]">
-                Manage What To Do
-              </h1>
-              <p className="mt-4 max-w-[270px] text-[11px] leading-[1.45] text-[#767676] opacity-0 animate-[text-fade-in-up_500ms_ease-out_350ms_forwards]">
-                The best way to manage what you have to do,<br />
-                don&apos;t forget your plans
-              </p>
-            </div>
-
-            <button
-              onClick={onGetStarted}
-              className="mt-auto w-full bg-[#4966e8] py-[11px] text-[14px] font-semibold text-white transition-colors hover:bg-primary-dark active:scale-[0.99] opacity-0 animate-[text-fade-in-up_500ms_ease-out_500ms_forwards]"
-            >
-              Get Started
-            </button>
+        <div className="flex flex-1 flex-col px-5 pt-[23px] pb-7 bg-white animate-[onboarding-white-sheet-continuous_1600ms_cubic-bezier(0.25,1,0.5,1)_forwards]">
+          <div>
+            <h1 className="text-[21px] font-bold leading-tight tracking-[-0.02em] text-text-primary opacity-0 animate-[text-fade-in-up_500ms_ease-out_800ms_forwards]">
+              Manage What To Do
+            </h1>
+            <p className="mt-4 max-w-[270px] text-[11px] leading-[1.45] text-[#767676] opacity-0 animate-[text-fade-in-up_500ms_ease-out_950ms_forwards]">
+              The best way to manage what you have to do,<br />
+              don&apos;t forget your plans
+            </p>
           </div>
-        )}
+
+          <button
+            onClick={onGetStarted}
+            className="mt-auto w-full bg-[#4966e8] py-[11px] text-[14px] font-semibold text-white transition-colors hover:bg-primary-dark active:scale-[0.99] opacity-0 animate-[text-fade-in-up_500ms_ease-out_1100ms_forwards]"
+          >
+            Get Started
+          </button>
+        </div>
       </section>
     </div>
   );
