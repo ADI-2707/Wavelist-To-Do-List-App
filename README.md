@@ -1,6 +1,6 @@
 # Wavelist — Mobile-First Task Management Application
 
-Wavelist is a modern, mobile-first full-stack task management application built with React, Vite, Tailwind CSS, Express, and MongoDB.
+Wavelist is a modern, mobile-first full-stack task management application built with React 18, Vite, Tailwind CSS, Node.js, Express, and MongoDB.
 
 ---
 
@@ -31,7 +31,7 @@ Note: Render free tier web services automatically spin down after inactivity and
 
 ## Key Features
 
-- **Onboarding Screen**: Mobile hero banner view with herringbone wave pattern background, logo mark, and call to action.
+- **Onboarding Entrance Animation**: Multi-stage sequence featuring initial full-screen blue background, 3D centered logo pop-in, 3D scale-to-zero transition, sliding white section, and staggered asset entry.
 - **Home Dashboard**:
   - Keyword Search Bar.
   - Horizontal Day Strip (Monday through Sunday) with interactive week navigation.
@@ -39,8 +39,8 @@ Note: Render free tier web services automatically spin down after inactivity and
   - Weekly Progress Bar: Dynamic percentage indicator based on active vs completed tasks.
   - Daily Task List: Task items with interactive status check toggle and priority indicators.
   - Floating Add Button (FAB): Quick access trigger to create new tasks.
-- **Task Management Modal**: Create and edit tasks with title, date, time, description, and priority level (Low / Medium / High).
-- **Search View**: Real-time client-side and server-supported search across task titles and descriptions.
+- **Task Management Modal**: Create and edit tasks with title, date, start/end time, description, and priority level (Low / Medium / High).
+- **Search View**: 300ms debounced real-time client-side and server-supported search across task titles and descriptions.
 
 ---
 
@@ -49,15 +49,19 @@ Note: Render free tier web services automatically spin down after inactivity and
 ```
 wavelist/
 ├── client/                 # React + Vite + Tailwind CSS frontend
-│   ├── public/             # Static assets and favicon
+│   ├── public/             # Static public assets
 │   ├── src/
 │   │   ├── api/            # API client wrapper & local storage fallback
-│   │   ├── assets/         # SVG icons and wave pattern asset
-│   │   ├── components/     # Reusable UI components (SearchBar, TaskItem, FAB, Modal, etc.)
+│   │   │   └── __tests__/  # Unit tests for API layer
+│   │   ├── assets/         # SVG icons, logo, and wave pattern asset
+│   │   ├── components/     # Reusable UI components
+│   │   │   └── __tests__/  # Unit tests for TaskItem, TaskFormModal, DayStrip
 │   │   ├── pages/          # Application views (Onboarding, Home, Search)
+│   │   │   └── __tests__/  # Page integration unit tests
 │   │   ├── App.jsx         # App routing and state management
-│   │   ├── index.css       # Tailwind CSS design system tokens
-│   │   └── main.jsx        # Application entry point
+│   │   ├── index.css       # Tailwind CSS design system & animation keyframes
+│   │   ├── main.jsx        # Application entry point
+│   │   └── setupTests.js   # Jest DOM matchers setup
 │   ├── README.md           # Client package documentation
 │   ├── tailwind.config.js  # Custom theme styling & colors
 │   ├── vite.config.js      # Vite build & dev server config
@@ -66,18 +70,19 @@ wavelist/
 │   ├── controllers/        # Route controllers (taskController.js)
 │   ├── models/             # Mongoose schemas (Task.js)
 │   ├── routes/             # API routes (tasks.js)
-│   ├── __tests__/          # Integration tests (health.test.js)
-│   ├── app.js              # Express app setup and middleware
+│   ├── __tests__/          # Integration tests (health.test.js, tasks.test.js)
+│   ├── app.js              # Express app setup, CORS, body parser, error handlers
 │   ├── db.js               # Database connection lifecycle
 │   ├── index.js            # Server entry point and graceful shutdown listeners
 │   └── README.md           # Server package documentation
-├── .github/workflows/      # CI/CD pipeline definition
+├── .github/workflows/      # CI/CD and Release pipeline definitions
+├── .releaserc.json         # Semantic release configuration
 └── README.md               # Monorepo root documentation
 ```
 
 ---
 
-## Quick Start
+## Local Development Setup
 
 ### Prerequisites
 - Node.js v18 or higher
@@ -105,19 +110,27 @@ The React frontend application will run at `http://localhost:5173`.
 
 ## Test Suites
 
-Run client and server test suites locally:
+Run client and server test suites locally (35 total passing tests):
 
-### Client Unit Tests
+### Client Unit & Component Tests (24 Tests)
 ```bash
 cd client
 npm test
 ```
 
-### Server Integration Tests
+### Server REST API Integration Tests (11 Tests)
 ```bash
 cd server
 npm test
 ```
+
+---
+
+## CI/CD and Versioning
+
+Automated Semantic Release and Continuous Integration are configured using GitHub Actions:
+- **CI Pipeline** (`.github/workflows/ci.yml`): Runs client and server test suites on pull requests and pushes.
+- **Release Pipeline** (`.github/workflows/release.yml`): Automatically parses Conventional Commits on `main`, bumps package versions, updates `CHANGELOG.md`, and publishes GitHub Releases.
 
 ---
 
