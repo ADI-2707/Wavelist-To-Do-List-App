@@ -1,4 +1,4 @@
-# Wavelist — Mobile-First Task Management Application
+# Wavelist — Mobile-First To Do Application
 
 Wavelist is a modern, mobile-first full-stack task management application built with React 18, Vite, Tailwind CSS, Node.js, Express, and MongoDB.
 
