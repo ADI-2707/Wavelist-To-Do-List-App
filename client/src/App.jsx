@@ -18,7 +18,6 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  // Load tasks on mount
   const loadTasks = async () => {
     setLoading(true);
     try {
@@ -35,14 +34,11 @@ export default function App() {
     loadTasks();
   }, []);
 
-  // Handlers
   const handleCreateOrUpdateTask = async (taskData) => {
     if (editingTask) {
-      // Update
       const updated = await apiUpdateTask(editingTask._id, taskData);
       setTasks((prev) => prev.map((t) => (t._id === editingTask._id ? updated : t)));
     } else {
-      // Create
       const created = await apiCreateTask(taskData);
       setTasks((prev) => [created, ...prev]);
     }
@@ -50,7 +46,6 @@ export default function App() {
   };
 
   const handleToggleStatus = async (id, currentStatus) => {
-    // Optimistic update
     const newStatus = currentStatus === 'Completed' ? 'In Progress' : 'Completed';
     setTasks((prev) =>
       prev.map((t) => (t._id === id ? { ...t, status: newStatus } : t))
@@ -105,7 +100,6 @@ export default function App() {
         />
       )}
 
-      {/* Shared Task Form Modal */}
       <TaskFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

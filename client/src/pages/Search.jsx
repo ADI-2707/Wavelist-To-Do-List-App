@@ -61,7 +61,6 @@ export default function Search({
         </div>
       <main className="mt-7">
 
-        {/* Task List */}
         {filteredTasks.length > 0 ? (
           <div>
             {filteredTasks.map((task) => (

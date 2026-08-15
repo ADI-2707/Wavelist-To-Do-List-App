@@ -1,6 +1,5 @@
 const Task = require('../models/Task');
 
-// GET /api/tasks - Get all tasks
 exports.getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find().sort({ dateTime: 1, createdAt: -1 });
@@ -10,7 +9,6 @@ exports.getAllTasks = async (req, res) => {
   }
 };
 
-// GET /api/tasks/search?q=keyword - Search tasks
 exports.searchTasks = async (req, res) => {
   try {
     const query = req.query.q || '';
@@ -31,7 +29,6 @@ exports.searchTasks = async (req, res) => {
   }
 };
 
-// POST /api/tasks - Create task
 exports.createTask = async (req, res) => {
   try {
     const { title, description, dateTime, endTime, priority, status } = req.body;
@@ -53,7 +50,6 @@ exports.createTask = async (req, res) => {
   }
 };
 
-// PUT /api/tasks/:id - Update task
 exports.updateTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,7 +68,6 @@ exports.updateTask = async (req, res) => {
   }
 };
 
-// PATCH /api/tasks/:id/status - Toggle status
 exports.toggleTaskStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -92,7 +87,6 @@ exports.toggleTaskStatus = async (req, res) => {
   }
 };
 
-// DELETE /api/tasks/:id - Delete task
 exports.deleteTask = async (req, res) => {
   try {
     const { id } = req.params;

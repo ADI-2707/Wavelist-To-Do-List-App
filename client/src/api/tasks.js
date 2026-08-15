@@ -1,6 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-// Initial local fallback tasks if server connection fails or for instant UI preview
 const DEFAULT_TASKS = [
   {
     _id: 'mock-1',
@@ -31,7 +30,6 @@ const DEFAULT_TASKS = [
   }
 ];
 
-// Helper to get local tasks
 const getLocalTasks = () => {
   try {
     const stored = localStorage.getItem('wavelist_tasks');

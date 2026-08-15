@@ -24,14 +24,12 @@ export default function Home({
 
   const selectedDateStr = selectedDate.toISOString().split('T')[0];
 
-  // Filter tasks for the selected date
   const tasksForSelectedDate = tasks.filter((t) => {
     if (!t.dateTime) return false;
     const taskDateStr = new Date(t.dateTime).toISOString().split('T')[0];
     return taskDateStr === selectedDateStr;
   });
 
-  // Calculate week progress statistics
   const completedCount = tasks.filter((t) => t.status === 'Completed').length;
   const pendingCount = tasks.filter((t) => t.status === 'In Progress').length;
   const totalCount = tasks.length;
@@ -68,7 +66,6 @@ export default function Home({
           </div>
         )}
 
-        {/* Day Strip Navigation */}
         <DayStrip
           selectedDate={selectedDate}
           onSelectDate={setSelectedDate}
@@ -77,17 +74,14 @@ export default function Home({
           activeTaskDates={activeTaskDates}
         />
 
-        {/* Stat Cards (Complete / Pending) */}
         <div className="flex gap-4">
           <StatCard type="complete" count={completedCount} total={totalCount} />
           <StatCard type="pending" count={pendingCount} total={totalCount} />
         </div>
 
-        {/* Weekly Progress Bar */}
         <ProgressBar completed={completedCount} total={totalCount} />
 
         <section key={selectedDateStr} className="animate-[tasks-content-enter_260ms_cubic-bezier(0.22,1,0.36,1)]">
-          {/* Tasks Section Header */}
           <div className="flex items-center justify-between pt-0">
             <h2 className="text-[17px] font-semibold text-[#0b1022]">Tasks Today</h2>
             <button
@@ -98,7 +92,6 @@ export default function Home({
             </button>
           </div>
 
-          {/* Task List */}
           {loading ? (
             <div className="space-y-0 py-2">
               {[1, 2, 3].map((n) => (
@@ -135,7 +128,6 @@ export default function Home({
         </section>
       </main>
 
-      {/* Floating Add Task Button */}
       {!loading && hasTasksToday && <FAB onClick={onOpenNewTaskModal} />}
     </div>
   );

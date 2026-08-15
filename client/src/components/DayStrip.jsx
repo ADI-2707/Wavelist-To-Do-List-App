@@ -1,10 +1,9 @@
 import React from 'react';
 
 export default function DayStrip({ selectedDate, onSelectDate, weekOffset = 0, onChangeWeek, activeTaskDates = [] }) {
-  // Generate days for the selected week offset (Monday to Sunday)
   const getDaysOfWeek = (offset = 0) => {
     const now = new Date();
-    const currentDayOfWeek = now.getDay(); // 0 is Sun, 1 is Mon
+    const currentDayOfWeek = now.getDay();
     const distanceToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
     
     const monday = new Date(now);
