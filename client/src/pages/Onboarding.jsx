@@ -1,5 +1,5 @@
 import React from 'react';
-import wavePattern from '../assets/wave-pattern.svg';
+import wavePattern from '../assets/wave-pattern.svg?url';
 
 export default function Onboarding({ onGetStarted }) {
   return (
