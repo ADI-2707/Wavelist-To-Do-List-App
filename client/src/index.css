@@ -80,6 +80,21 @@ body {
   }
 }
 
+@keyframes logo-zoom-out-distance {
+  0% {
+    transform: perspective(1000px) translateZ(0px) scale(1);
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+  }
+  60% {
+    transform: perspective(1000px) translateZ(-500px) scale(0.3);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  }
+  100% {
+    transform: perspective(1000px) translateZ(-1200px) scale(0);
+    filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+  }
+}
+
 @keyframes hero-blue-shrink {
   from {
     height: 100vh;

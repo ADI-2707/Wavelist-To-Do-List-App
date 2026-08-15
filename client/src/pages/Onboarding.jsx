@@ -44,10 +44,10 @@ export default function Onboarding({ onGetStarted }) {
           />
 
           <div
-            className={`z-10 flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${
+            className={`z-10 flex flex-col items-center justify-center ${
               isSplash
                 ? 'animate-[logo-3d-entry_800ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]'
-                : 'scale-0 transform-gpu pointer-events-none'
+                : 'animate-[logo-zoom-out-distance_700ms_cubic-bezier(0.22,1,0.36,1)_forwards] pointer-events-none'
             }`}
           >
             <img
