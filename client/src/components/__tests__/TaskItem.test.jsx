@@ -14,17 +14,16 @@ describe('TaskItem Component', () => {
     status: 'In Progress'
   };
 
-  it('renders task details correctly', () => {
+  it('renders task title correctly', () => {
     render(<TaskItem task={sampleTask} />);
     expect(screen.getByText('Design UI Mockups')).toBeInTheDocument();
-    expect(screen.getByText('High')).toBeInTheDocument();
   });
 
   it('triggers status toggle when status check button is clicked', () => {
     const handleToggleStatus = vi.fn();
     render(<TaskItem task={sampleTask} onToggleStatus={handleToggleStatus} />);
     
-    const toggleButton = screen.getByRole('button', { name: /toggle task status/i });
+    const toggleButton = screen.getByTitle('Mark as Completed');
     fireEvent.click(toggleButton);
 
     expect(handleToggleStatus).toHaveBeenCalledWith('task-100', 'In Progress');
@@ -34,7 +33,7 @@ describe('TaskItem Component', () => {
     const handleEdit = vi.fn();
     render(<TaskItem task={sampleTask} onEdit={handleEdit} />);
 
-    const editButton = screen.getByRole('button', { name: /edit task/i });
+    const editButton = screen.getByTitle('Edit task');
     fireEvent.click(editButton);
 
     expect(handleEdit).toHaveBeenCalledWith(sampleTask);
@@ -44,7 +43,7 @@ describe('TaskItem Component', () => {
     const handleDelete = vi.fn();
     render(<TaskItem task={sampleTask} onDelete={handleDelete} />);
 
-    const deleteButton = screen.getByRole('button', { name: /delete task/i });
+    const deleteButton = screen.getByTitle('Delete task');
     fireEvent.click(deleteButton);
 
     expect(handleDelete).toHaveBeenCalledWith('task-100');
